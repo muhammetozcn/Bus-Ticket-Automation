@@ -23,11 +23,33 @@ public class BusTicketBean {
     /**
      * Creates a new instance of BusTicketBean
      */
-    Job job=new Job();
-    public String [] seats=new String[45];
-    public int [] seatNumbers=new int[45];
+   // Job job=new Job();
+
+    public String sellSeats="";
+    public String str2="";
+
+    public String getStr2() {
+        return str2;
+    }
+ 
+    public String submitted(){
+        this.str2=sellSeats;
+        System.out.println("submit edildi");
+        return "sell?faces-redirect=true"; 
+    }
+
+    public String getSellSeats() {
+        return sellSeats;
+    }
     
     
+
+    public void setSellSeats(String sellSeats) {
+        this.sellSeats=sellSeats;
+    }
+
+   
+    /*
     public BusTicketBean() {
         koltukDiziDoldur();
         //veritabanından koltukları çek String dizisine ata
@@ -47,14 +69,8 @@ public class BusTicketBean {
         }
         
     }
-    public void koltukDiziDoldur(){
-        for(int i=0;i<45;i++){
-            this.seatNumbers[i]=i+1;
-        }
-    }
-    
-    
-    
+   
+    */
    
     
     
