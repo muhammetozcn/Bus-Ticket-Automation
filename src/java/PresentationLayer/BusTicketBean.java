@@ -11,6 +11,7 @@ import javax.faces.bean.RequestScoped;
 import BusinessLogicLayer.Job;
 import java.sql.SQLException;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 
 /**
  *
@@ -26,14 +27,48 @@ public class BusTicketBean {
    // Job job=new Job();
 
     public String sellSeats="";
-    public String str2="";
+    List<Integer> sellSeatsList = new ArrayList<Integer>();
+    public String ticketList;
+    Job job=new Job();
 
-    public String getStr2() {
-        return str2;
+    public String getTicketList() {
+        job.
+        
+        
+        
+        
     }
+    
+   
+
+    public List<Integer> getSellSeatsList() {
+       /* if(this.sellSeatsList.size()>4){
+         for(int i=4;i<this.sellSeatsList.size();i++){
+             this.sellSeatsList.remove(i);
+         }
+            
+        }*/
+        return sellSeatsList;
+    }
+
+    public void setSellSeatsList(List<Integer> sellSeatsList) {
+        for(int i=0;i<this.sellSeatsList.size();i++){
+            this.sellSeatsList.remove(i);
+        }
+      
+        this.sellSeatsList = sellSeatsList;
+    }
+
+
+    public BusTicketBean(){
+
+    }
+
+
+  
+
  
     public String submitted(){
-        this.str2=sellSeats;
         System.out.println("submit edildi");
         return "sell?faces-redirect=true"; 
     }
@@ -45,7 +80,26 @@ public class BusTicketBean {
     
 
     public void setSellSeats(String sellSeats) {
+        this.sellSeats="";
+        this.sellSeatsList.clear();
         this.sellSeats=sellSeats;
+        String[] splitter=sellSeats.split(",");
+        
+        if(splitter.length>4){
+            for(int i=0;i<4;i++){
+            sellSeatsList.add(Integer.parseInt(splitter[i]));
+
+        }
+            
+        }else{
+            for(int i=0;i<splitter.length;i++){
+            sellSeatsList.add(Integer.parseInt(splitter[i]));
+
+        }
+        
+        }
+        
+        
     }
 
    

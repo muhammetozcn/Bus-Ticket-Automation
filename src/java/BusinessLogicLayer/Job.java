@@ -8,7 +8,7 @@ package BusinessLogicLayer;
 
 
 import DataAccessLayer.Database;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Dictionary;
 
 
@@ -25,6 +25,14 @@ public class Job {
         String sql="insert into BusSeat values(?,?)";
        
         DB.update(sql, seatNumber, gender);
+        
+    }
+    
+    public void returnSellingTicket() throws SQLException{
+        String sql="Select *from BusSeat";
+        ResultSet rs=DB.query(sql);
+    
+        
         
     }
     

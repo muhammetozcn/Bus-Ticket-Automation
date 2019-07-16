@@ -22,11 +22,11 @@ public class Database {
  
         //Database'ye executeQuery yapan inner class
   
-    public ResultSet query(){
+    public ResultSet query(String sql){
          try{
             Class.forName("com.mysql.jdbc.Driver");
             conn=DriverManager.getConnection(DB_url,DB_user,DB_password);
-            psmt=conn.prepareStatement("sql");
+            psmt=conn.prepareStatement(sql);
             results=psmt.executeQuery();
      
             

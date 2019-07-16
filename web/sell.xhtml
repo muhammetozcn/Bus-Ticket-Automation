@@ -13,8 +13,50 @@ and open the template in the editor.
     </head>
     <body>
         MERHABA DÜNYA
-  
-        <h:outputText value="#{ticket.str2}"/>
+   <h:form>
+            
+        <h:outputText value="#{ticket.sellSeats}"/>
+        Ali:<h:outputText value="#{ticket.sellSeatsList[0]}"/>
+        Dizi şeklinde:<h:outputText value="#{ticket.sellSeatsList}"/>
+       
+        <h:panelGrid columns="5" rendered="#{ticket.sellSeatsList[0]!=null}">         
+            <h:outputText value="Koltuk No #{ticket.sellSeatsList[0]}"/>
+            Ad Soyad:<h:inputText value="#{customer.nameSurname}" />
+            Tc Kimlik No: <h:inputText value="#{customer.TCIdNumber}"/>
+        </h:panelGrid>
+        
+        <h:panelGrid columns="5" rendered="#{ticket.sellSeatsList[1]!=null}">
+            
+            <h:outputText value="Koltuk No #{ticket.sellSeatsList[1]}"/>
+            Ad Soyad:<h:inputText value="#{customer.nameSurname}" />
+            Tc Kimlik No: <h:inputText value="#{customer.TCIdNumber}"/>
+        </h:panelGrid>
+       
+        <h:panelGrid columns="5" rendered="#{ticket.sellSeatsList[2]!=null}">
+            
+            <h:outputText value="Koltuk No #{ticket.sellSeatsList[2]}"/>
+            Ad Soyad:<h:inputText value="#{customer.nameSurname}" />
+            Tc Kimlik No: <h:inputText value="#{customer.TCIdNumber}"/>
+            
+        </h:panelGrid>
+        <h:panelGrid columns="5" rendered="#{ticket.sellSeatsList[3]!=null}">
+            
+            <h:outputText value="Koltuk No #{ticket.sellSeatsList[3]}"/>
+            Ad Soyad:<h:inputText value="#{customer.nameSurname}" />
+            Tc Kimlik No: <h:inputText value="#{customer.TCIdNumber}"/>
+            
+        </h:panelGrid>
+       
+        <h:panelGrid columns="5">
+            <h:outputText value="İletişim bilgileri"/> 
+            Telefon Numarası:<h:inputText value="#{customer.phoneNumber}"/>                
+        </h:panelGrid>
+        
+        
+        
+        <h:commandButton value="Satın Al"  />   
+    </h:form>
+        
    
     </body>
 </html>

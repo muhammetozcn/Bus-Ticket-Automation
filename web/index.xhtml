@@ -94,16 +94,19 @@
         </h:form>
         <h:form id="form2">
             <h:outputText value="Satın almak istediğiniz koltuk numaraları"/>
-            <h:inputText id="biletler" value="#{ticket.sellSeats}">
+            <h:inputText id="biletler" value="#{ticket.sellSeats}"  >
                 
             </h:inputText>
           
             <h:commandButton type="submit" id="SatınAl" value="Gönder" action="#{ticket.submitted()}" />
         </h:form>
    
+        <h:form id="form3">
+             <!--Burda value yerine veritabanı.veridöndür şeklinde eklenecek.-->
         
-  
-              
+        <h:inputHidden id="veri" value="#{}" />
+        </h:form>
+       
     </h:body>
      
 </html>
