@@ -9,7 +9,9 @@ package BusinessLogicLayer;
 
 import DataAccessLayer.Database;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Dictionary;
+import java.util.List;
 
 
 
@@ -28,12 +30,17 @@ public class Job {
         
     }
     
-    public void returnSellingTicket() throws SQLException{
-        String sql="Select *from BusSeat";
+    public ArrayList<String> returnSellingTicket() throws SQLException{
+        ArrayList<String> genders=new ArrayList<String>();
+        String sql="Select *from BUSANDSEAT WHERE BusID='1'";
         ResultSet rs=DB.query(sql);
+        while(rs.next()){
+           genders.add(rs.getString("Gender"));
+               
+        }
     
         
-        
+        return genders;
     }
     
 }

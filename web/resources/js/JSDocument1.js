@@ -9,9 +9,35 @@ var dizi=[];
 
 
 
+
 $(document).ready(function(){
         var item=  document.getElementById("form3:veri");
-        console.log(item.value); 
+        var val=item.value;
+        
+     
+        var arraySeat=val.split(",");
+         
+            
+        for(let index=0;index<46;index++){
+            if(arraySeat[index]==="erkek"){
+                var coloredSeat=document.querySelector(`[value="${index}"]`);
+                coloredSeat.setAttribute("style","background-color:royalblue");
+                coloredSeat.setAttribute("disabled","true");
+               
+                console.log(coloredSeat);
+                console.log("index="+index);
+            }
+            if(arraySeat[index]==="kadın"){
+                var coloredSeat=document.querySelector(`[value="${index}"]`);
+                coloredSeat.setAttribute("style","background-color:red");
+                coloredSeat.setAttribute("disabled","true");
+               
+                console.log(coloredSeat);
+                console.log("index="+index);
+            }
+        }
+            
+         
          
     
     

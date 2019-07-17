@@ -31,12 +31,25 @@ public class BusTicketBean {
     public String ticketList;
     Job job=new Job();
 
-    public String getTicketList() {
-        job.
+    public String getTicketList() throws SQLException {
+       String genderList ="";
+       ArrayList<String> genders=job.returnSellingTicket();
+       for(String gender:genders){
+            if(genderList==""){
+               genderList=gender;
+               continue;
+           }
+          
+            if(genderList!=""){
+               genderList=genderList+","+gender;
+           }
+          
+           
+       } 
+    
         
         
-        
-        
+        return genderList;
     }
     
    
