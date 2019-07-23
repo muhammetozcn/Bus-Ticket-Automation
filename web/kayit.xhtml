@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:head>
+        <title>TODO supply a title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+        
+        
+        <h:form id="loginForm">
+            <b:container fluid="false">
+                <b:panel title="Kayıt Ol" look="primary">
+                    <b:row>
+                        <b:column medium-screen="2">
+                            <h:outputLabel value="Username:" for="username" />
+                        </b:column>
+                        <b:column medium-screen="4">
+                            <b:inputText placeholder="Username" id="username" value="#{users.isim}"
+                                         ajax="false" required="true" requiredMessage="Kullanıcı Adı Alanı Zorunludur!"
+                                validatorMessage="Kullanıcı adı 3-15 karakter aralığında olup sadece küçük harf, rakam ve özel karakter(_ -) kullanılabilir!">
+                                <f:validateRegex pattern="^[a-z0-9_-]{3,15}$"/>
+                                <f:facet name="prepend">
+                                    <b:icon name="user" />
+                                </f:facet>
+                            </b:inputText>
+                        </b:column>
+                        <b:column medium-screen="6" style-class="message">
+                            <b:message for="username" />
+                        </b:column>
+                    </b:row>
+                    <b:row>
+                        <b:column medium-screen="2">
+                            <h:outputText value="Password:" />
+                        </b:column>
+                        <b:column medium-screen="4">
+                            <b:inputSecret placeholder="Password" id="password" value="#{users.sifre}" required="true" requiredMessage="Şifre Alanı Zorunludur!"
+                                validatorMessage="Şifre en az sekiz karakter, en az bir büyük harf, bir küçük harf ve bir sayıdan oluşmalıdır!Özel karakter içermemeli!">
+                                <f:validateRegex pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$"/>
+                                <f:facet name="prepend">
+                                    <b:iconAwesome name="key" />
+                                </f:facet>
+                            </b:inputSecret>
+                        </b:column>
+                        <b:column medium-screen="6" style-class="message">
+                            <b:message for="password" />
+                        </b:column>
+                        </b:row>
+                    <b:row tooltip="This password has fancy error messages.">
+                        <b:column medium-screen="2">
+                            <h:outputText value="Email:" />
+                        </b:column>
+                        <b:column medium-screen="4">
+                            
+                            <b:inputText placeholder="Email" id="email" value="#{users.email}" required="true" requiredMessage="Email Alanı Zorunludur!"
+                                         validatorMessage="Geçersiz E-posta adresi!">
+                                
+                                
+                                <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"/>
+                                <f:facet name="prepend">
+                                    <b:iconAwesome name="envelope" />
+                                </f:facet>
+                            </b:inputText>
+                        </b:column>
+                        <b:column medium-screen="6" style-class="message">
+                            <b:message for="email" />
+                        </b:column>
+                    </b:row>
+                    
+                    <b:row tooltip="This password has fancy error messages.">
+                        <b:column medium-screen="2">
+                            <h:outputText value="Sex:" />
+                        </b:column>
+                        <b:column medium-screen="4">
+                            <h:selectOneRadio value="#{users.cinsiyet}">
+                
+                                <f:selectItems value="#{users.getCinsiyetler()}"/>
+                
+                
+                
+            </h:selectOneRadio>
+                            
+                        </b:column>
+                        <b:column medium-screen="6" style-class="message">
+                            <b:message for="sex" />
+                        </b:column>
+                    </b:row>
+                    
+                    
+                    
+                    
+                    <b:row>
+                        <b:column span="2" offset="2">
+                            <b:commandButton value="Sign up" action="#{users.veriTabaninaGönder()}" look="primary"
+                                             style="width:100%" />
+                        </b:column>
+                    </b:row>
+                    <b:row>
+                       
+                    </b:row>
+                </b:panel>
+            </b:container>
+            
+      
+        </h:form>
+
+</h:body>
+</html>

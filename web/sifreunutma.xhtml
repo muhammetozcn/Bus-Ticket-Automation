@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>TODO supply a title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+        <div></div>
+
+        <h:form>
+            <b:container fluid="false">
+                <b:panel title="Şifre Hatırlatma Servisi" look="primary">
+                    <b:row>
+                        <b:column medium-screen="2">
+                            <h:outputLabel value="Email:" for="email" />
+                        </b:column>
+                        <b:column medium-screen="4">
+                            <b:inputText placeholder="Email" id="email" value="#{users.email}"
+                                         ajax="false" required="true" requiredMessage="Email Alanı Zorunludur!"
+                                         validatorMessage="Geçersiz E-posta adresi!">
+                                <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"/>
+                                <f:facet name="prepend">
+                                    <b:icon name="envelope" />
+                                </f:facet>
+                            </b:inputText>
+                        </b:column>
+                        <b:column medium-screen="6" style-class="message">
+                            <b:message for="email" />
+                        </b:column>
+                    </b:row>
+                    
+                    <b:row>
+                        <b:column span="2" offset="2">
+                            <b:commandButton value="Send" action="#{users.sendMail()}" look="primary"
+                                             style="width:100%" />
+                        </b:column>
+                    </b:row>
+                    
+                </b:panel>
+            </b:container>
+            
+      
+        </h:form>
+       
+        
+        
+        
+        
+        
+    </h:body>
+</html>
