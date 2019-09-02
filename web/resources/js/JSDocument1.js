@@ -6,28 +6,22 @@ var maxKoltukSayısı=0;
 var dizi=[];
 var pagecounter=0;
 
+function sayfayıYenile(){
+   
+    document.getElementById("form2:biletler").value="";
+};
 
+function readOnlyYap(){
+    var inputText2=document.querySelector(`[id="form2:biletler`);
+    inputText2.setAttribute("readonly","true");
+    
+};
 
+function veriTabanikoltukKontrolu(){
+    var item=  document.getElementById("form3:veri");
+    var val=item.value;
+    var arraySeat=val.split(",");
 
-
-$(document).ready(function(){
-    
-    
-    
-    
-        
-    
-        var item=  document.getElementById("form3:veri");
-        var val=item.value;
-        document.getElementById("form2:biletler").value="";
-     
-        var arraySeat=val.split(",");
-        
-        
-        var inputText2=document.querySelector(`[id="form2:biletler`);
-        inputText2.setAttribute("readonly","true");
-         
-            
         for(let index=0;index<46;index++){
             if(arraySeat[index]==="erkek"){
                 var coloredSeat=document.querySelector(`[value="${index}"]`);
@@ -46,76 +40,67 @@ $(document).ready(function(){
                 console.log("index="+index);
             }
         }
-            
-         
-         
-    
-    
-    
-    $('.koltuk').click(function(){
-       //alert("koltuk numaranız="+x);
-       //biletler id'li input içindeki değere x ekle
-       
-       
-       if(maxKoltukSayısı>3){
+};
+
+function koltukSayisiKontrolü(item){
+    if(maxKoltukSayısı>3){
            alert('maksimum 4 koltuk satın alabilirsiniz'); 
            location.reload();
           
        }else{
-           
+  
            maxKoltukSayısı++;
-           $(this).css('background-color', colors[1]);
+           item.css('background-color', colors[1]);
+        }
    
+};
+
+function eklemeKontrolu(controlAdding,alinanBiletler,inputTextValue){
+    if(controlAdding){
+        if(alinanBiletler.value===""){
+                alinanBiletler.value=inputTextValue;
+        }
+        else{
+                alinanBiletler.value=alinanBiletler.value+","+inputTextValue;
+        }
+           
+    }
+    
+};
+
+$(document).ready(function(){
+        sayfayıYenile();
+        readOnlyYap();
+        veriTabanikoltukKontrolu();
+      
+      
+    $('.koltuk').click(function(){
+       function butonaBasildimi(dizi,inputTextValue){
+          return dizi.includes(inputTextValue);
+           
+       };
+       function butonaBasildi(item,maxKoltukSayısı){
+           item.css('background-color','');
+           maxKoltukSayısı=maxKoltukSayısı-2;
+       }
+      
+       
+   
+       koltukSayisiKontrolü($(this));
        var inputTextValue=$(this).val();
        var controlAdding=false;
-      
-       if(dizi.includes(inputTextValue)){
-           $(this).css('background-color','');
-           maxKoltukSayısı=maxKoltukSayısı-2;
-           /*
-           dizi.splice(dizi.indexOf(inputTextValue));   
-           console.log(x123);
-           let textBoxArray=x123.split(",");
-           let = document.getElementById("form2:biletler");
-           var indexOfthis=textBoxArray.indexof(inputTextValue);
-           delete textBoxArray[indexOfthis];
-           console.log(textBoxArray);
-           var newString="";
-           for(var i1=0;i1<textBoxArray.length;i1++){
-              if(newString.value===""){
-           newString=textBoxArray[i1];
-             }else{
-           newString=newString.value+","+textBoxArray[i1];
-              }
-           }
-           document.getElementById("form2:biletler").value=newString;
-           
-           */
+    
+       if(butonaBasildimi(dizi,inputTextValue)){
+          butonaBasildi($(this),maxKoltukSayısı);
        }else{
             dizi.push(inputTextValue);
             controlAdding=true;
-       }
-       
+       }      
        var alinanBiletler= document.getElementById("form2:biletler");
+       eklemeKontrolu(controlAdding,alinanBiletler,inputTextValue);
        
        
-       if(controlAdding){
-            if(alinanBiletler.value===""){
-           alinanBiletler.value=inputTextValue;
-       }else{
-           alinanBiletler.value=alinanBiletler.value+","+inputTextValue;
-       }
-           
-       }
-      
-        
+    }
        
-   
-       }
-       
-     
-       
-       
-       
-    });
+    );
 });
