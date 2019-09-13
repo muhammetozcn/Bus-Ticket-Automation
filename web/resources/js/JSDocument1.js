@@ -26,6 +26,7 @@ function veriTabanikoltukKontrolu(){
             if(arraySeat[index]==="erkek"){
                 var coloredSeat=document.querySelector(`[value="${index}"]`);
                 coloredSeat.setAttribute("style","background-color:royalblue");
+                coloredSeat.setAttribute("style","display:none");
                 coloredSeat.setAttribute("disabled","true");
                
                 console.log(coloredSeat);

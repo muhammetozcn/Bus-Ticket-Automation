@@ -12,15 +12,21 @@ import java.sql.*;
  * @author ozcan
  */
 public class Database {
-    private Connection conn = null;
-    private  ResultSet results = null;
-    private  String DB_url="jdbc:mysql://localhost:3306/BusAutomation";
-    private  String DB_user="root";
-    private  String DB_password="";
-    private  String driver = "com.mysql.jdbc.Driver";
-    private  PreparedStatement psmt;
+    public Connection conn = null;
+    public  ResultSet results = null;
+    public  String DB_url="jdbc:mysql://localhost:3306/BusAutomation";
+    public  String DB_user="root";
+    public  String DB_password="";
+    public  String driver = "com.mysql.jdbc.Driver";
+    public  PreparedStatement psmt;
  
         //Database'ye executeQuery yapan inner class
+    
+    public void DatabaseClose() throws SQLException{
+        this.conn.close();
+        this.psmt.close();
+    }
+    
   
     public ResultSet query(String sql){
          try{

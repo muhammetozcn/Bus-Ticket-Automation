@@ -4,7 +4,20 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/home/ozcan/NetBeansProjects/BusTicketApp/web/resources/js/JSDocument1.js</file>
+            <file>file:/home/ozcan/NetBeansProjects/BusTicketApp/src/java/BusinessLogicLayer/Job.java</file>
+            <file>file:/home/ozcan/NetBeansProjects/BusTicketApp/src/java/rebel.xml</file>
+            <file>file:/home/ozcan/NetBeansProjects/BusTicketApp/web/giris.xhtml</file>
+            <file>file:/home/ozcan/NetBeansProjects/BusTicketApp/web/kayit.xhtml</file>
+            <file>file:/home/ozcan/NetBeansProjects/BusTicketApp/src/java/PresentationLayer/Customer.java</file>
+            <file>file:/home/ozcan/NetBeansProjects/BusTicketApp/web/sifredegistir.xhtml</file>
+            <file>file:/home/ozcan/NetBeansProjects/BusTicketApp/web/sell.xhtml</file>
+            <file>file:/home/ozcan/NetBeansProjects/BusTicketApp/src/java/DataAccessLayer/Database.java</file>
+            <file>file:/home/ozcan/NetBeansProjects/BusTicketApp/src/java/PresentationLayer/kayitGönder.java</file>
+            <file>file:/home/ozcan/NetBeansProjects/BusTicketApp/src/java/rebel-remote.xml</file>
             <file>file:/home/ozcan/NetBeansProjects/BusTicketApp/web/index.xhtml</file>
+            <file>file:/home/ozcan/NetBeansProjects/BusTicketApp/web/otobusSecimi.xhtml</file>
+            <file>file:/home/ozcan/NetBeansProjects/BusTicketApp/src/java/PresentationLayer/BusTicketBean.java</file>
+            <file>file:/home/ozcan/NetBeansProjects/BusTicketApp/web/sifreunutma.xhtml</file>
         </group>
     </open-files>
 </project-private>

@@ -5,10 +5,12 @@
  */
 package PresentationLayer;
 
+import DataAccessLayer.Database;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
 import javax.faces.application.FacesMessage;
@@ -30,20 +32,12 @@ import javax.mail.internet.MimeMessage;
  */
 @ManagedBean(name="users")
 @SessionScoped
-//@RequestScoped
+
 public class kayitGönder {
    
    private String email; 
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-   private String isim;
-   private String sifre;
+   private String isim="admin";        
+   private String sifre="";
    private String girisisim;
    private String girissifre;
    private String unutulansifre;
@@ -52,7 +46,14 @@ public class kayitGönder {
    private String yenisifre;
    private String yeni2sifre;
    
-   
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
    static{
         cinsiyetler.add("Male");
         cinsiyetler.add("Female");
@@ -133,130 +134,106 @@ public class kayitGönder {
         this.sifre = sifre;
     }
     
-    public String veriTabaninaGönder(){
     
-    Connection connection=null;
-    PreparedStatement preparedStatement=null;
-    int i=0;
-    
-    try{
-       
-        Class.forName("com.mysql.jdbc.Driver");
-        connection=DriverManager.getConnection("jdbc:mysql://localhost:3306/BusAutomation","root","");
-        preparedStatement=connection.prepareStatement("insert into kisiler(isim,sifre,email,cinsiyet) values(?,?,?,?)");
-        preparedStatement.setString(1, isim);
-        preparedStatement.setString(2, sifre);
-        preparedStatement.setString(3, email);
-        preparedStatement.setString(4, cinsiyet);
-        i=preparedStatement.executeUpdate();
-    }
-    catch(Exception e){
-        System.err.println(e);
-        
-    }
-    finally{
+    public boolean veriTabanınaVeriEkle(String isim,String sifre,String email,String cinsiyet) throws ClassNotFoundException, SQLException{
+        Database database=new Database();
+        Class.forName(database.driver);
+        database.conn=DriverManager.getConnection(database.DB_url,database.DB_user,database.DB_password);
+        database.psmt=database.conn.prepareStatement("insert into kisiler(isim,sifre,email,cinsiyet) values(?,?,?,?)");
+        database.psmt.setString(1,isim);
+        database.psmt.setString(2,sifre);
+        database.psmt.setString(3,email);
+        database.psmt.setString(4,cinsiyet);
+        int veriTabaniEklendiMi=0;
         try{
-            connection.close();
-            preparedStatement.close();
-            
-     
-        }
-        catch(Exception e){
-            System.err.println("HATA"+e);
-        }
-    }
-    if(i>0){
-        
-        
-        
-        
-        
-            FacesMessage fm = new FacesMessage("Kayıt başarılı!", "ERROR MSG");
-            fm.setSeverity(FacesMessage.SEVERITY_ERROR);
-            FacesContext.getCurrentInstance().addMessage(null, fm);
-            return "index";
-       
-    }
-    else{
-            FacesMessage fm = new FacesMessage("Kayıt başarısız!", "ERROR MSG");
-            fm.setSeverity(FacesMessage.SEVERITY_ERROR);
-            FacesContext.getCurrentInstance().addMessage(null, fm);
-            return "kayit";
-    }
-    
-    
-    }
-    
-    public String cek(){
-        Connection conn=null;
-        PreparedStatement statement=null;
-        ResultSet resultSet=null;
-        int i=0;
-        
-        try{
-       
-            Class.forName("com.mysql.jdbc.Driver");
-            conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/BusAutomation","root","");
-            statement=conn.prepareStatement("select isim,sifre from kisiler where isim=? and sifre=?");
-            statement.setString(1,isim);
-            statement.setString(2,sifre);
-            resultSet=statement.executeQuery();
-           
-            while(resultSet.next()){
-            i++;
-              
-         
-            }
-       		
-            
-        }
-        catch(Exception e){
+             veriTabaniEklendiMi=database.psmt.executeUpdate();
+        }catch(Exception e){
             e.printStackTrace();
-            System.out.println("hata");
-            
-        }
-        
-        finally{
+            System.out.println("Veritabanına Ekleme hatası");
+        }finally{
             try{
-                conn.close();
-                statement.close();
-                
-            }
-            catch(Exception e){
-                System.out.println("hata"+e);
-                
+                database.DatabaseClose();
+            }catch(Exception e){
+                e.printStackTrace();
+                System.out.println("Veritabanı kapanmama hatası");
             }
         }
-        
-         if(i>0){
-        
-        return "giris?faces-redirect=true";
+        return veriTabaniEklendiMi>0;
     }
-    else{
+    public String veriTabaninaGönder() throws ClassNotFoundException, SQLException{
+    
+
+    boolean kayıtEdildiMi=false;
+    kayıtEdildiMi=veriTabanınaVeriEkle(isim, sifre,email,cinsiyet);
+  
+   
+    if(kayıtEdildiMi){
+        FacesMessage fm = new FacesMessage("Kayıt başarılı!", "ERROR MSG");
+        fm.setSeverity(FacesMessage.SEVERITY_ERROR);
+        FacesContext.getCurrentInstance().addMessage(null, fm);
+        return "index";
+       
+    }else{
+        FacesMessage fm = new FacesMessage("Kayıt başarısız!", "ERROR MSG");
+        fm.setSeverity(FacesMessage.SEVERITY_ERROR);
+        FacesContext.getCurrentInstance().addMessage(null, fm);
+        return "kayit";
+    }
+    
+    
+    }
+    public boolean KisiKontrolu(String isim,String sifre) throws ClassNotFoundException, SQLException{
+        Database database=new Database();
+        Class.forName(database.driver);
+        database.conn=DriverManager.getConnection(database.DB_url,database.DB_user,database.DB_password);
+        database.psmt=database.conn.prepareStatement("select isim,sifre from kisiler where isim=? and sifre=?");
+        database.psmt.setString(1,isim);
+        database.psmt.setString(2,sifre);
+        database.results=database.psmt.executeQuery();
+        
+        int kullaniciVarMi=0;
+        try{
+            while(database.results.next()){
+                kullaniciVarMi++;
+                
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+            System.out.println("Veritabanı hatası");
+        }finally{
+            try{
+               database.DatabaseClose();
+            
+            }catch(Exception e){
+                e.printStackTrace();
+                System.out.println("Veritabanı kapatılamadı");
+            }
+                
+        }
+        
+        return kullaniciVarMi>0;
+    }
+    
+    public String cek() throws ClassNotFoundException, SQLException{
+        boolean kisikontrolu=KisiKontrolu(this.isim,this.sifre);
+        if(kisikontrolu){
+        return "otobusSecimi?faces-redirect=true";
+        //giris yerine otobusSecimi yapıldı.
+        }
+         else{
             FacesMessage fm = new FacesMessage("Kullanıcı adı veya şifre hatalı, tekrer deneyiniz...", "ERROR MSG");
             fm.setSeverity(FacesMessage.SEVERITY_ERROR);
             FacesContext.getCurrentInstance().addMessage(null, fm);
             return "index";
-      
-        
             
-            
-            
-            
-    }
-   
-    
+        }
     }
     
-   
     public void sendMail(){
-        
         Connection conn=null;
         PreparedStatement statement=null;
         ResultSet resultSet=null;
-        
         try{
-       
             Class.forName("com.mysql.jdbc.Driver");
             conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/BusAutomation","root","");
             statement=conn.prepareStatement("select * from kisiler where email=?");
@@ -266,44 +243,37 @@ public class kayitGönder {
             while(resultSet.next()){
               //  String isim1=resultSet.getString("isim");
               //  this.setGirisisim(isim1);
-                
                 this.setUnutulansifre(resultSet.getString("sifre"));
-         
             }
             
-        }
-        catch(Exception e){
+        }catch(Exception e){
             e.printStackTrace();
             System.out.println("hata");
         }
-        
         finally{
             try{
                 conn.close();
                 statement.close();
                 
-            }
-            catch(Exception e){
-                System.out.println("hata"+e);
-                
+            }catch(Exception e){
+                System.out.println("hata"+e);            
             }
         }
-        
-             final String username = "zubeyrbaya3@gmail.com";
-             final String password = "gwdeqfynzfwkfvei";
-             Properties properties = new Properties();
-             properties.put("mail.smtp.auth", "true");
-             properties.put("mail.smtp.starttls.enable", "true");
-             properties.put("mail.smtp.host", "smtp.gmail.com");
-             properties.put("mail.smtp.port", "587");
+            final String username = "zubeyrbaya3@gmail.com";
+            final String password = "gwdeqfynzfwkfvei";
+            Properties properties = new Properties();
+            properties.put("mail.smtp.auth", "true");
+            properties.put("mail.smtp.starttls.enable", "true");
+            properties.put("mail.smtp.host", "smtp.gmail.com");
+            properties.put("mail.smtp.port", "587");
  
              Session session = Session.getInstance(properties,
                            new javax.mail.Authenticator() {
-                    protected PasswordAuthentication getPasswordAuthentication() {
+                    protected PasswordAuthentication getPasswordAuthentication(){
                            return new PasswordAuthentication(username, password);
                     }
              }); 
-             try {
+            try {
  
                     Message message = new MimeMessage(session);
                     message.setFrom(new InternetAddress("zubeyrbaya3@gmail.com"));
@@ -311,14 +281,10 @@ public class kayitGönder {
                     message.setSubject("Şifre Hatırlatma");
                     message.setText("Sifreniz:"+getUnutulansifre()); 
                     Transport.send(message);
- 
-             } catch (MessagingException ex) {
+             }catch (MessagingException ex) {
                     throw new RuntimeException(ex);
-             }
-    
-               
+             }       
     }
-    
     public String changePassword(){
         
         Connection conn=null;
@@ -333,56 +299,40 @@ public class kayitGönder {
             statement=conn.prepareStatement("update kisiler set sifre=? where sifre=?");
             if(yenisifre.equals(yeni2sifre)){
             statement.setString(1,yenisifre);
-            }
-            else{
+            }else{
             FacesMessage fm = new FacesMessage("Yeni şifreler uyuşmuyor...", "ERROR MSG");
             fm.setSeverity(FacesMessage.SEVERITY_ERROR);
             FacesContext.getCurrentInstance().addMessage(null, fm);
             return "sifredegistir";
             }
-            statement.setString(2,sifre);
-            
-             i=statement.executeUpdate();
-     
-            
+            statement.setString(2,sifre);          
+            i=statement.executeUpdate();   
         }
-     
-        
         catch(Exception e){
             e.printStackTrace();
             System.out.println("hata");
         }
-        
-        
         finally{
             try{
                 conn.close();
-                statement.close();
-                
+                statement.close(); 
             }
             catch(Exception e){
-                System.out.println("hata"+e);
-                
+                System.out.println("hata"+e);  
             }
         }
-         if(i>0){
+        if(i>0){
             FacesMessage fm = new FacesMessage("Şifre Başarıyla değiştirildi...", "ERROR MSG");
             fm.setSeverity(FacesMessage.SEVERITY_ERROR);
             FacesContext.getCurrentInstance().addMessage(null, fm); 
             return "index";
-             }
-             else{
+        }else{
             FacesMessage fm = new FacesMessage("Eski şifre yanlış...", "ERROR MSG");
             fm.setSeverity(FacesMessage.SEVERITY_ERROR);
             FacesContext.getCurrentInstance().addMessage(null, fm);
             return "sifredegistir";
-             }
-         
-            
-        }
-    
-        
-        
-    }
+        }        
+    }      
+}
     
     

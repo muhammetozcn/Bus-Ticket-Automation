@@ -40,11 +40,8 @@ public class Job {
         String sql="Select *from BUSANDSEAT WHERE BusID='1'";
         ResultSet rs=DB.query(sql);
         while(rs.next()){
-           genders.add(rs.getString("Gender"));
-               
+           genders.add(rs.getString("Gender"));      
         }
-    
-        
         return genders;
     }
     
