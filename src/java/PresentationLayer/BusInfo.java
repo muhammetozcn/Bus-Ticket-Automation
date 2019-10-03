@@ -22,8 +22,22 @@ public class BusInfo {
      */
     public BusInfo() {
     }
+    public String BusID;
+
+    public String getBusID() {
+        return BusID;
+    }
+
+    public void setBusID(String BusID) {
+        this.BusID = BusID;
+    }
     
-    private String firstCity;
+    
+     public String otobusAra(){
+        
+        return "giris?faces-redirect=true";
+    }
+   /* private String firstCity;
     private String secondCity;
 
     public String getFirstCity() {
@@ -43,10 +57,7 @@ public class BusInfo {
     }
     
     
-    
-    public String otobusAra(){
-        
-        return "giris?faces-redirect=true";
-    }
+    */
+   
     
 }

@@ -46,6 +46,8 @@ public class kayitGönder {
    private String yenisifre;
    private String yeni2sifre;
    
+  
+   
     public String getEmail() {
         return email;
     }

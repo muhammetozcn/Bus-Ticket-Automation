@@ -9,6 +9,11 @@ import java.util.*;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import BusinessLogicLayer.Job;
+import DataAccessLayer.Database;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
@@ -111,30 +116,60 @@ public class BusTicketBean {
         
         
     }
-
-   
-    /*
-    public BusTicketBean() {
-        koltukDiziDoldur();
-        //veritabanından koltukları çek String dizisine ata
-    }
-
-    public String[] getSeats() {
-        return seats;
-    }
-
-    public void setSeats(int seatNumber,String gender) throws SQLException, ClassNotFoundException {
-        this.seats[seatNumber-1]=gender;
-        job.ticketAddDb(gender,seatNumber);
-        
-        if(true==true){//Kullanıcı koltuğu satın alırsa
-        
-            //Eğer o if(dizi[seatNumber-1]!="boş") --> kullanıcının seçtiği
+    public String cinsiyetBul(String kullaniciAdi) throws ClassNotFoundException, SQLException{
+        Database database=new Database();
+        Class.forName(database.driver);
+        database.conn=DriverManager.getConnection(database.DB_url,database.DB_user,database.DB_password);
+        database.psmt=database.conn.prepareStatement("select cinsiyet from kisiler where isim=? ");
+        database.psmt.setString(1,kullaniciAdi);
+        database.results=database.psmt.executeQuery();
+        String cinsiyet2="";
+        while(database.results.next()){
+          cinsiyet2=database.results.getString("cinsiyet");
         }
         
+        database.DatabaseClose();
+      return cinsiyet2;
+    }
+    
+    
+    
+    public String sat(String kullaniciAdi,String BusID) throws ClassNotFoundException, SQLException{
+        String cinsiyet=cinsiyetBul(kullaniciAdi);
+        
+        if(cinsiyet.equals("Male")){
+            cinsiyet="erkek";
+            
+        }else{
+            cinsiyet="kadın";
+        }
+       
+      Connection conn = null;
+      ResultSet results = null;
+      String DB_url="jdbc:mysql://localhost:3306/BusAutomation";
+      String DB_user="root";
+      String DB_password="";
+     
+      PreparedStatement psmt;
+      Class.forName("com.mysql.jdbc.Driver");
+      conn=DriverManager.getConnection(DB_url, DB_user,DB_password);
+      for(int i=0;i<sellSeatsList.size();i++){
+        psmt=conn.prepareStatement("UPDATE BUSANDSEAT SET gender=? , kullaniciAdi=? where BUSID=? and "
+                + "SeatNumber=? ");
+        psmt.setString(1, cinsiyet);
+        psmt.setString(2,kullaniciAdi );
+        psmt.setString(3,BusID );
+        psmt.setString(4, sellSeatsList.get(i).toString());
+        psmt.executeUpdate();
+        }
+        conn.close();  
+        return "finishXhtml?faces-redirect=true";
+            
+           
+       
     }
    
-    */
+ 
    
     
     

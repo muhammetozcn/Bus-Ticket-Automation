@@ -18,22 +18,20 @@ and open the template in the editor.
         <h:form>
             
              <h:outputText value="Nereden"/>
-             <h:selectOneMenu value="#{businfo.firstCity}">
-                <f:selectItem itemValue="İstanbul" itemLabel="İstanbul" />
-                <f:selectItem itemValue="Karabük" itemLabel="Karabük" />
-                <f:selectItem itemValue="Kocaeli" itemLabel="Kocaeli"/>
+             <h:selectOneMenu>
+                 <f:selectItem itemValue="Kocaeli" itemLabel="Kocaeli" noSelectionOption="true"/>
              </h:selectOneMenu>
              <h:outputText value="Nereye"/>
-             <h:selectOneMenu value="#{businfo.secondCity}">
-                <f:selectItem itemValue="İstanbul" itemLabel="İstanbul" />
-                <f:selectItem itemValue="Karabük" itemLabel="Karabük" />
-                <f:selectItem itemValue="Kocaeli" itemLabel="Kocaeli"/>
+             <h:selectOneMenu value="#{businfo.busID}">
+                <f:selectItem itemValue="1" itemLabel="İstanbul" />
+                <f:selectItem itemValue="2" itemLabel="Karabük" />
+                <f:selectItem itemValue="3" itemLabel="Kastamonu"/>
              </h:selectOneMenu>
              
             <h:outputText value="Gideceğiniz tarihi seçiniz"/>
-             <h:selectOneMenu value="#{businfo.firstCity}">
-                 <f:selectItem itemValue="1" itemLabel="25 Eylül 2019"/>
-                 <f:selectItem itemValue="1" itemLabel="26 Eylül 2019"/>
+            <h:selectOneMenu>
+                 <f:selectItem itemValue="5ek" itemLabel="5 Ekim 2019"/>
+          
              </h:selectOneMenu>
             
             <h:commandButton value="Otobüs Ara" action="#{businfo.otobusAra()}"/>
